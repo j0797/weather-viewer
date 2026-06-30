@@ -17,6 +17,7 @@
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <maven.war.plugin.version>3.4.0</maven.war.plugin.version>
         <maven.surefire.plugin.version>3.5.2</maven.surefire.plugin.version>
+        <h2.version>2.4.240</h2.version>
         <spring.version>6.2.19</spring.version>
         <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
         <hibernate.version>6.6.0.Final</hibernate.version>
@@ -36,6 +37,13 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
