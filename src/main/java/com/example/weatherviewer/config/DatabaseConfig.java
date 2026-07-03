@@ -2,7 +2,6 @@ package com.example.weatherviewer.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
@@ -42,16 +41,7 @@ public class DatabaseConfig {
         return new HikariDataSource(config);
     }
 
-    @Bean(initMethod = "migrate")
-    public Flyway flyway(DataSource dataSource) {
-        return Flyway.configure()
-                .dataSource(dataSource)
-                .locations("classpath:db/migration")
-                .load();
-    }
-
     @Bean
-    @DependsOn("flyway")
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
