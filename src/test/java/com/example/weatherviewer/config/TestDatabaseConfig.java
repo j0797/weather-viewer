@@ -8,10 +8,13 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
+
+import static org.mockito.Mockito.mock;
 
 @Configuration
 @Profile("test")
@@ -51,6 +54,11 @@ public class TestDatabaseConfig {
     @Bean
     public PlatformTransactionManager transactionManager() {
         return new HibernateTransactionManager(Objects.requireNonNull(sessionFactory().getObject()));
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return mock(RestTemplate.class);
     }
 
     private Properties hibernateProperties() {
