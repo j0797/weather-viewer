@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -31,17 +32,25 @@ public class OpenWeatherService {
     }
 
     public List<LocationDto> searchLocations(String query) {
-        String url = apiUrl + GEOCODING_URL;
-        LocationDto[] response = restTemplate.getForObject(url, LocationDto[].class, query, SEARCH_LIMIT, apiKey);
-        return response != null ? List.of(response) : List.of();
+        try {
+            String url = apiUrl + GEOCODING_URL;
+            LocationDto[] response = restTemplate.getForObject(url, LocationDto[].class, query, SEARCH_LIMIT, apiKey);
+            return response != null ? List.of(response) : List.of();
+        } catch (RestClientException e) {
+            throw new OpenWeatherApiException("Failed to fetch locations: " + e.getMessage());
+        }
     }
 
     public WeatherDto getWeather(double lat, double lon) {
-        String url = apiUrl + WEATHER_URL;
-        WeatherDto dto = restTemplate.getForObject(url, WeatherDto.class, lat, lon, apiKey);
-        if (dto == null) {
-            throw new OpenWeatherApiException("Weather data not available");
+        try {
+            String url = apiUrl + WEATHER_URL;
+            WeatherDto dto = restTemplate.getForObject(url, WeatherDto.class, lat, lon, apiKey);
+            if (dto == null) {
+                throw new OpenWeatherApiException("Weather data not available");
+            }
+            return dto;
+        } catch (RestClientException e) {
+            throw new OpenWeatherApiException("Failed to fetch weather: " + e.getMessage());
         }
-        return dto;
     }
 }
