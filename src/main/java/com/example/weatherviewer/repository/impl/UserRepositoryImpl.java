@@ -28,6 +28,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Optional<User> findById(Long id) {
+        return Optional.ofNullable(sessionFactory.getCurrentSession().get(User.class, id));
+    }
+
+    @Override
     public User save(User user) {
         sessionFactory.getCurrentSession().persist(user);
         return user;
