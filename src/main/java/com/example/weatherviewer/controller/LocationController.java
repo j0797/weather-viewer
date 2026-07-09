@@ -1,15 +1,82 @@
 package com.example.weatherviewer.controller;
 
+import com.example.weatherviewer.dto.LocationDto;
+import com.example.weatherviewer.entity.User;
+import com.example.weatherviewer.exception.LocationAlreadyExistsException;
+import com.example.weatherviewer.exception.LocationNotFoundException;
+import com.example.weatherviewer.service.LocationService;
+import com.example.weatherviewer.service.OpenWeatherService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/locations")
 public class LocationController {
 
+    private static final String SEARCH_RESULTS_VIEW = "search-results";
+    private static final String REDIRECT_HOME = "redirect:/";
+    private static final String QUERY_PARAM = "query";
+    private static final String EXISTING_NAMES = "existingNames";
+    private static final String LOCATIONS = "locations";
+    private static final String ERROR = "error";
+    private static final String SUCCESS = "success";
+
+    private final OpenWeatherService openWeatherService;
+    private final LocationService locationService;
+
+    public LocationController(OpenWeatherService openWeatherService, LocationService locationService) {
+        this.openWeatherService = openWeatherService;
+        this.locationService = locationService;
+    }
+
     @GetMapping("/search")
-    public String searchLocations() {
-        return "search-results";
+    public String searchLocations(@RequestParam("query") String query,
+                                  @RequestAttribute("currentUser") User user,
+                                  Model model) {
+        List<LocationDto> locations = openWeatherService.searchLocations(query);
+        List<String> existingNames = locationService.getLocationsByUser(user)
+                .stream()
+                .map(l -> l.getName().toLowerCase())
+                .toList();
+        model.addAttribute(LOCATIONS, locations);
+        model.addAttribute(QUERY_PARAM, query);
+        model.addAttribute(EXISTING_NAMES, existingNames);
+        return SEARCH_RESULTS_VIEW;
+    }
+
+    @PostMapping("/add")
+    public String addLocation(@RequestParam("name") String name,
+                              @RequestParam("lat") double lat,
+                              @RequestParam("lon") double lon,
+                              @RequestAttribute("currentUser") User user,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            locationService.addLocation(user, name, lat, lon);
+            redirectAttributes.addFlashAttribute(SUCCESS, "Location added successfully");
+        } catch (LocationAlreadyExistsException e) {
+            redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(ERROR, "Failed to add location");
+        }
+        return REDIRECT_HOME;
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteLocation(@PathVariable Long id,
+                                 @RequestAttribute("currentUser") User user,
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            locationService.deleteLocation(id, user);
+            redirectAttributes.addFlashAttribute(SUCCESS, "Location deleted successfully");
+        } catch (LocationNotFoundException e) {
+            redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(ERROR, "Failed to delete location");
+        }
+        return REDIRECT_HOME;
     }
 }
