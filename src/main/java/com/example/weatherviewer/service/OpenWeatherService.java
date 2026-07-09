@@ -37,7 +37,7 @@ public class OpenWeatherService {
             LocationDto[] response = restTemplate.getForObject(url, LocationDto[].class, query, SEARCH_LIMIT, apiKey);
             return response != null ? List.of(response) : List.of();
         } catch (RestClientException e) {
-            throw new OpenWeatherApiException("Failed to fetch locations: " + e.getMessage());
+            throw new OpenWeatherApiException("Location search is temporarily unavailable. Please try again later.");
         }
     }
 
@@ -46,11 +46,11 @@ public class OpenWeatherService {
             String url = apiUrl + WEATHER_URL;
             WeatherDto dto = restTemplate.getForObject(url, WeatherDto.class, lat, lon, apiKey);
             if (dto == null) {
-                throw new OpenWeatherApiException("Weather data not available");
+                throw new OpenWeatherApiException("Location search is temporarily unavailable. Please try again later.");
             }
             return dto;
         } catch (RestClientException e) {
-            throw new OpenWeatherApiException("Failed to fetch weather: " + e.getMessage());
+            throw new OpenWeatherApiException("Weather service is temporarily unavailable. Please try again later.");
         }
     }
 }

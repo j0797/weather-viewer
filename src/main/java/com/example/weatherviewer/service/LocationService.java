@@ -55,7 +55,7 @@ public class LocationService {
                             location.getLongitude().doubleValue()
                     );
                     if (weather.weather() == null || weather.weather().isEmpty()) {
-                        throw new OpenWeatherApiException("No weather data");
+                        throw new OpenWeatherApiException("Weather data is temporarily unavailable for this location.");
                     }
                     return new WeatherCardDto(
                             location.getId(),
