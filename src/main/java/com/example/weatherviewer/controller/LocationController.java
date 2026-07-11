@@ -1,9 +1,9 @@
 package com.example.weatherviewer.controller;
 
-import com.example.weatherviewer.dto.LocationDto;
+import com.example.weatherviewer.dto.api.LocationDto;
 import com.example.weatherviewer.entity.User;
-import com.example.weatherviewer.exception.LocationAlreadyExistsException;
-import com.example.weatherviewer.exception.LocationNotFoundException;
+import com.example.weatherviewer.exception.location.LocationAlreadyExistsException;
+import com.example.weatherviewer.exception.location.LocationNotFoundException;
 import com.example.weatherviewer.service.LocationService;
 import com.example.weatherviewer.service.OpenWeatherService;
 import org.springframework.stereotype.Controller;

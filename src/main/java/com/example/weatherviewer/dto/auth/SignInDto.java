@@ -1,4 +1,4 @@
-package com.example.weatherviewer.dto;
+package com.example.weatherviewer.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

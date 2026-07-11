@@ -1,12 +1,12 @@
 package com.example.weatherviewer.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.example.weatherviewer.dto.SignInDto;
-import com.example.weatherviewer.dto.SignUpDto;
+import com.example.weatherviewer.dto.auth.SignInDto;
+import com.example.weatherviewer.dto.auth.SignUpDto;
 import com.example.weatherviewer.entity.Session;
 import com.example.weatherviewer.entity.User;
-import com.example.weatherviewer.exception.InvalidCredentialsException;
-import com.example.weatherviewer.exception.UserNotFoundException;
+import com.example.weatherviewer.exception.auth.InvalidCredentialsException;
+import com.example.weatherviewer.exception.auth.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

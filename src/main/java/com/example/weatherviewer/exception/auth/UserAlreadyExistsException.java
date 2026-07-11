@@ -1,4 +1,4 @@
-package com.example.weatherviewer.exception;
+package com.example.weatherviewer.exception.auth;
 
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException(String message) {

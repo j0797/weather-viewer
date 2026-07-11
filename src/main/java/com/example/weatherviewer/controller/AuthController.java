@@ -1,9 +1,9 @@
 package com.example.weatherviewer.controller;
 
-import com.example.weatherviewer.dto.SignInDto;
-import com.example.weatherviewer.dto.SignUpDto;
-import com.example.weatherviewer.exception.InvalidCredentialsException;
-import com.example.weatherviewer.exception.UserAlreadyExistsException;
+import com.example.weatherviewer.dto.auth.SignInDto;
+import com.example.weatherviewer.dto.auth.SignUpDto;
+import com.example.weatherviewer.exception.auth.InvalidCredentialsException;
+import com.example.weatherviewer.exception.auth.UserAlreadyExistsException;
 import com.example.weatherviewer.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

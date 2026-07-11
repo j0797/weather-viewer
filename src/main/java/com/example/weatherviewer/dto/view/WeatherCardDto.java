@@ -1,4 +1,4 @@
-package com.example.weatherviewer.dto;
+package com.example.weatherviewer.dto.view;
 
 public record WeatherCardDto(
         Long locationId,

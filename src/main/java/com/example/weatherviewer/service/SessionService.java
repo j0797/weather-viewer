@@ -2,7 +2,7 @@ package com.example.weatherviewer.service;
 
 import com.example.weatherviewer.entity.Session;
 import com.example.weatherviewer.entity.User;
-import com.example.weatherviewer.exception.SessionNotFoundException;
+import com.example.weatherviewer.exception.session.SessionNotFoundException;
 import com.example.weatherviewer.repository.SessionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

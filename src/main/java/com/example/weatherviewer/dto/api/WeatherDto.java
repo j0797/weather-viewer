@@ -1,4 +1,4 @@
-package com.example.weatherviewer.dto;
+package com.example.weatherviewer.dto.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

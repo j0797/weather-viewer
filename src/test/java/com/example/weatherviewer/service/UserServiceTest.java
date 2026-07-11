@@ -1,9 +1,9 @@
 package com.example.weatherviewer.service;
 
 import com.example.weatherviewer.config.TestDatabaseConfig;
-import com.example.weatherviewer.dto.SignUpDto;
+import com.example.weatherviewer.dto.auth.SignUpDto;
 import com.example.weatherviewer.entity.User;
-import com.example.weatherviewer.exception.UserAlreadyExistsException;
+import com.example.weatherviewer.exception.auth.UserAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

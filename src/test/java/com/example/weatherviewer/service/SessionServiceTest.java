@@ -1,7 +1,7 @@
 package com.example.weatherviewer.service;
 
 import com.example.weatherviewer.config.TestDatabaseConfig;
-import com.example.weatherviewer.dto.SignUpDto;
+import com.example.weatherviewer.dto.auth.SignUpDto;
 import com.example.weatherviewer.entity.Session;
 import com.example.weatherviewer.entity.User;
 import com.example.weatherviewer.repository.SessionRepository;

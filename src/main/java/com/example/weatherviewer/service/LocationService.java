@@ -1,12 +1,12 @@
 package com.example.weatherviewer.service;
 
-import com.example.weatherviewer.dto.WeatherCardDto;
-import com.example.weatherviewer.dto.WeatherDto;
+import com.example.weatherviewer.dto.view.WeatherCardDto;
+import com.example.weatherviewer.dto.api.WeatherDto;
 import com.example.weatherviewer.entity.Location;
 import com.example.weatherviewer.entity.User;
-import com.example.weatherviewer.exception.LocationAlreadyExistsException;
-import com.example.weatherviewer.exception.LocationNotFoundException;
-import com.example.weatherviewer.exception.OpenWeatherApiException;
+import com.example.weatherviewer.exception.location.LocationAlreadyExistsException;
+import com.example.weatherviewer.exception.location.LocationNotFoundException;
+import com.example.weatherviewer.exception.openweather.OpenWeatherApiException;
 import com.example.weatherviewer.repository.LocationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

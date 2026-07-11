@@ -1,9 +1,9 @@
 package com.example.weatherviewer.service;
 
-import com.example.weatherviewer.dto.SignUpDto;
+import com.example.weatherviewer.dto.auth.SignUpDto;
 import com.example.weatherviewer.entity.User;
-import com.example.weatherviewer.exception.UserAlreadyExistsException;
-import com.example.weatherviewer.exception.UserNotFoundException;
+import com.example.weatherviewer.exception.auth.UserAlreadyExistsException;
+import com.example.weatherviewer.exception.auth.UserNotFoundException;
 import com.example.weatherviewer.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

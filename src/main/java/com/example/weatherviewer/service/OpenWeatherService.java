@@ -1,8 +1,8 @@
 package com.example.weatherviewer.service;
 
-import com.example.weatherviewer.dto.WeatherDto;
-import com.example.weatherviewer.dto.LocationDto;
-import com.example.weatherviewer.exception.OpenWeatherApiException;
+import com.example.weatherviewer.dto.api.WeatherDto;
+import com.example.weatherviewer.dto.api.LocationDto;
+import com.example.weatherviewer.exception.openweather.OpenWeatherApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

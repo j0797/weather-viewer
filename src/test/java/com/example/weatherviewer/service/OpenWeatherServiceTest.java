@@ -1,8 +1,8 @@
 package com.example.weatherviewer.service;
 
-import com.example.weatherviewer.dto.LocationDto;
-import com.example.weatherviewer.dto.WeatherDto;
-import com.example.weatherviewer.exception.OpenWeatherApiException;
+import com.example.weatherviewer.dto.api.LocationDto;
+import com.example.weatherviewer.dto.api.WeatherDto;
+import com.example.weatherviewer.exception.openweather.OpenWeatherApiException;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
 package com.example.weatherviewer.controller;
 
-import com.example.weatherviewer.dto.WeatherCardDto;
+import com.example.weatherviewer.dto.view.WeatherCardDto;
 import com.example.weatherviewer.entity.User;
 import com.example.weatherviewer.service.LocationService;
 import org.springframework.stereotype.Controller;
