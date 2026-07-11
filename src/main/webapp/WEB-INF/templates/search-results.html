@@ -49,18 +49,22 @@
                                 <p class="card-text" th:text="'Longitude: ' + ${loc.lon}"></p>
                                 <p class="card-text" th:text="'State: ' + (${loc.state} ?: 'N/A')"></p>
                                 <div class="mt-auto">
-                                    <th:block th:if="${!existingNames.contains(loc.name.toLowerCase())}">
+                                    <th:block
+                                            th:if="${!existingKeys.contains(loc.name.toLowerCase() + '|' + loc.country + '|' + (loc.state != null ? loc.state : ''))}">
                                         <form th:action="@{/locations/add}" method="post"><input type="hidden"
                                                                                                  name="name"
                                                                                                  th:value="${loc.name}">
                                             <input type="hidden" name="lat" th:value="${loc.lat}"> <input type="hidden"
                                                                                                           name="lon"
                                                                                                           th:value="${loc.lon}">
+                                            <input type="hidden" name="country" th:value="${loc.country}"> <input
+                                                    type="hidden" name="state" th:value="${loc.state}">
                                             <button type="submit" class="btn btn-primary w-100">Add</button>
                                         </form>
                                     </th:block>
-                                    <th:block th:if="${existingNames.contains(loc.name.toLowerCase())}"><span
-                                            class="badge bg-success w-100 py-2">Already added</span></th:block>
+                                    <th:block
+                                            th:if="${existingKeys.contains(loc.name.toLowerCase() + '|' + loc.country + '|' + (loc.state != null ? loc.state : ''))}">
+                                        <span class="badge bg-success w-100 py-2">Already added</span></th:block>
                                 </div>
                             </div>
                         </div>

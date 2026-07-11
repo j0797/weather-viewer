@@ -11,7 +11,7 @@ public interface LocationRepository {
 
     Optional<Location> findById(Long id);
 
-    Optional<Location> findByUserIdAndName(Long userId, String name);
+    Optional<Location> findByUserIdAndNameAndCountryAndState(Long userId, String name, String country, String state);
 
     void deleteById(Long id);
 

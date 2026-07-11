@@ -13,7 +13,6 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name", nullable = false, length = 50)
@@ -29,10 +28,18 @@ public class Location {
     @Column(name = "longitude", nullable = false, precision = 9, scale = 6)
     private BigDecimal longitude;
 
-    public Location(String name, User user, BigDecimal latitude, BigDecimal longitude) {
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "state")
+    private String state;
+
+    public Location(String name, User user, BigDecimal latitude, BigDecimal longitude, String country, String state) {
         this.name = name;
         this.user = user;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.country = country;
+        this.state = state;
     }
 }

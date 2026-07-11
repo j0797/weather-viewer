@@ -11,11 +11,14 @@ import java.util.Optional;
 @Repository
 public class LocationRepositoryImpl implements LocationRepository {
 
-    private static final String FIND_BY_USER_ID_AND_NAME_HQL =
-            "FROM Location WHERE user.id = :userId AND lower(name) = lower(:name)";
-    private static final String NAME_PARAM = "name";
     private static final String FIND_ALL_BY_USER_ID_HQL = "FROM Location WHERE user.id = :userId";
+    private static final String FIND_BY_USER_ID_AND_NAME_AND_COUNTRY_AND_STATE_HQL =
+            "FROM Location WHERE user.id = :userId AND LOWER(name) = LOWER(:name) " +
+                    "AND country = :country AND state = :state";
     private static final String USER_ID_PARAM = "userId";
+    private static final String NAME_PARAM = "name";
+    private static final String COUNTRY_PARAM = "country";
+    private static final String STATE_PARAM = "state";
 
     private final SessionFactory sessionFactory;
 
@@ -37,11 +40,13 @@ public class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
-    public Optional<Location> findByUserIdAndName(Long userId, String name) {
+    public Optional<Location> findByUserIdAndNameAndCountryAndState(Long userId, String name, String country, String state) {
         return sessionFactory.getCurrentSession()
-                .createQuery(FIND_BY_USER_ID_AND_NAME_HQL, Location.class)
+                .createQuery(FIND_BY_USER_ID_AND_NAME_AND_COUNTRY_AND_STATE_HQL, Location.class)
                 .setParameter(USER_ID_PARAM, userId)
                 .setParameter(NAME_PARAM, name)
+                .setParameter(COUNTRY_PARAM, country)
+                .setParameter(STATE_PARAM, state)
                 .uniqueResultOptional();
     }
 

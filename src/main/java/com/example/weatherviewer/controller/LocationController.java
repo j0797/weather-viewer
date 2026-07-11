@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/locations")
@@ -20,7 +22,7 @@ public class LocationController {
     private static final String SEARCH_RESULTS_VIEW = "search-results";
     private static final String REDIRECT_HOME = "redirect:/";
     private static final String QUERY_PARAM = "query";
-    private static final String EXISTING_NAMES = "existingNames";
+    private static final String EXISTING_KEYS = "existingKeys";
     private static final String LOCATIONS = "locations";
     private static final String ERROR = "error";
     private static final String SUCCESS = "success";
@@ -38,13 +40,15 @@ public class LocationController {
                                   @RequestAttribute("currentUser") User user,
                                   Model model) {
         List<LocationDto> locations = openWeatherService.searchLocations(query);
-        List<String> existingNames = locationService.getLocationsByUser(user)
+        Set<String> existingKeys = locationService.getLocationsByUser(user)
                 .stream()
-                .map(l -> l.getName().toLowerCase())
-                .toList();
+                .map(l -> l.getName().toLowerCase() + "|" +
+                        (l.getCountry() != null ? l.getCountry() : "") + "|" +
+                        (l.getState() != null ? l.getState() : ""))
+                .collect(Collectors.toSet());
         model.addAttribute(LOCATIONS, locations);
         model.addAttribute(QUERY_PARAM, query);
-        model.addAttribute(EXISTING_NAMES, existingNames);
+        model.addAttribute(EXISTING_KEYS, existingKeys);
         return SEARCH_RESULTS_VIEW;
     }
 
@@ -52,10 +56,12 @@ public class LocationController {
     public String addLocation(@RequestParam("name") String name,
                               @RequestParam("lat") double lat,
                               @RequestParam("lon") double lon,
+                              @RequestParam("country") String country,
+                              @RequestParam(value = "state", required = false) String state,
                               @RequestAttribute("currentUser") User user,
                               RedirectAttributes redirectAttributes) {
         try {
-            locationService.addLocation(user, name, lat, lon);
+            locationService.addLocation(user, name, lat, lon, country, state);
             redirectAttributes.addFlashAttribute(SUCCESS, "Location added successfully");
         } catch (LocationAlreadyExistsException e) {
             redirectAttributes.addFlashAttribute(ERROR, e.getMessage());

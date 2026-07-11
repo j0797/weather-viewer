@@ -26,17 +26,18 @@ public class LocationService {
         this.openWeatherService = openWeatherService;
     }
 
-    public Location addLocation(User user, String name, double lat, double lon) {
+    public Location addLocation(User user, String name, double lat, double lon, String country, String state) {
 
-        if (locationRepository.findByUserIdAndName(user.getId(), name).isPresent()) {
-            throw new LocationAlreadyExistsException("Location with name '" + name + "' already exists for this user");
+        if (locationRepository.findByUserIdAndNameAndCountryAndState(user.getId(), name, country, state).isPresent()) {
+            throw new LocationAlreadyExistsException("Location '" + name + "' in " + country + (state != null ? ", " + state : "") + " already exists");
         }
         Location location = new Location(
                 name,
                 user,
                 BigDecimal.valueOf(lat),
-                BigDecimal.valueOf(lon)
-        );
+                BigDecimal.valueOf(lon),
+                country,
+                state);
         return locationRepository.save(location);
     }
 
