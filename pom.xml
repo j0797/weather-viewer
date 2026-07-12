@@ -26,7 +26,7 @@
         <flyway.version>10.11.1</flyway.version>
         <jackson.version>2.21.4</jackson.version>
         <bcrypt.version>0.10.2</bcrypt.version>
-        <slf4j.version>2.0.13</slf4j.version>
+        <logback.version>1.4.11</logback.version>
         <junit.version>5.10.2</junit.version>
         <mockito.version>5.11.0</mockito.version>
         <wiremock.version>3.0.3</wiremock.version>
@@ -133,9 +133,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
 
         <dependency>
