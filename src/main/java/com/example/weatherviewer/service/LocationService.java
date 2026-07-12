@@ -8,6 +8,7 @@ import com.example.weatherviewer.exception.location.LocationAlreadyExistsExcepti
 import com.example.weatherviewer.exception.location.LocationNotFoundException;
 import com.example.weatherviewer.exception.openweather.OpenWeatherApiException;
 import com.example.weatherviewer.repository.LocationRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,18 +31,23 @@ public class LocationService {
 
     public Location addLocation(User user, String name, double lat, double lon, String country, String state) {
         log.info("Adding location '{}' for user: {}", name, user.getLogin());
+        String message = "Location '" + name + "' in " + country + (state != null ? ", " + state : "") + " already exists";
         if (locationRepository.findByUserIdAndNameAndCountryAndState(user.getId(), name, country, state).isPresent()) {
             log.warn("Duplicate location '{}' for user: {}", name, user.getLogin());
-            throw new LocationAlreadyExistsException("Location '" + name + "' in " + country + (state != null ? ", " + state : "") + " already exists");
+            throw new LocationAlreadyExistsException(message);
         }
-        Location location = new Location(
-                name,
-                user,
-                BigDecimal.valueOf(lat),
-                BigDecimal.valueOf(lon),
-                country,
-                state);
-        return locationRepository.save(location);
+        try {
+            Location location = new Location(
+                    name,
+                    user,
+                    BigDecimal.valueOf(lat),
+                    BigDecimal.valueOf(lon),
+                    country,
+                    state);
+            return locationRepository.save(location);
+        } catch (ConstraintViolationException e) {
+            throw new LocationAlreadyExistsException(message);
+        }
     }
 
     @Transactional(readOnly = true)
