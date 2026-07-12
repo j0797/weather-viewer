@@ -32,24 +32,35 @@ public class OpenWeatherService {
     }
 
     public List<LocationDto> searchLocations(String query) {
+        log.info("Searching locations for query: {}", query);
         try {
             String url = apiUrl + GEOCODING_URL;
             LocationDto[] response = restTemplate.getForObject(url, LocationDto[].class, query, SEARCH_LIMIT, apiKey);
-            return response != null ? List.of(response) : List.of();
+            if (response != null) {
+                log.info("Found {} locations for query: {}", response.length, query);
+                return List.of(response);
+            } else {
+                log.info("No locations found for query: {}", query);
+                return List.of();
+            }
         } catch (RestClientException e) {
+            log.error("Error searching locations for query: {}", query, e);
             throw new OpenWeatherApiException("Location search is temporarily unavailable. Please try again later.");
         }
     }
 
     public WeatherDto getWeather(double lat, double lon) {
+        log.info("Fetching weather for lat={}, lon={}", lat, lon);
         try {
             String url = apiUrl + WEATHER_URL;
             WeatherDto dto = restTemplate.getForObject(url, WeatherDto.class, lat, lon, apiKey);
             if (dto == null) {
-                throw new OpenWeatherApiException("Location search is temporarily unavailable. Please try again later.");
+                throw new OpenWeatherApiException("Weather data is temporarily unavailable. Please try again later.");
             }
+            log.info("Weather fetched for lat={}, lon={}", lat, lon);
             return dto;
         } catch (RestClientException e) {
+            log.error("Error fetching weather for lat={}, lon={}", lat, lon, e);
             throw new OpenWeatherApiException("Weather service is temporarily unavailable. Please try again later.");
         }
     }
