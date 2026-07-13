@@ -22,7 +22,8 @@ import static org.mockito.Mockito.mock;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
         "com.example.weatherviewer.service",
-        "com.example.weatherviewer.repository"
+        "com.example.weatherviewer.repository",
+        "com.example.weatherviewer.mapper"
 })
 public class TestDatabaseConfig {
 
