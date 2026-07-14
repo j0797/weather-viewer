@@ -3,7 +3,6 @@ package com.example.weatherviewer.controller;
 import com.example.weatherviewer.dto.api.LocationDto;
 import com.example.weatherviewer.entity.User;
 import com.example.weatherviewer.exception.location.LocationAlreadyExistsException;
-import com.example.weatherviewer.exception.location.LocationNotFoundException;
 import com.example.weatherviewer.service.LocationService;
 import com.example.weatherviewer.service.OpenWeatherService;
 import org.springframework.stereotype.Controller;
@@ -65,8 +64,6 @@ public class LocationController {
             redirectAttributes.addFlashAttribute(SUCCESS, "Location added successfully");
         } catch (LocationAlreadyExistsException e) {
             redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute(ERROR, "Failed to add location");
         }
         return REDIRECT_HOME;
     }
@@ -75,14 +72,8 @@ public class LocationController {
     public String deleteLocation(@PathVariable Long id,
                                  @RequestAttribute("currentUser") User user,
                                  RedirectAttributes redirectAttributes) {
-        try {
-            locationService.deleteLocation(id, user);
-            redirectAttributes.addFlashAttribute(SUCCESS, "Location deleted successfully");
-        } catch (LocationNotFoundException e) {
-            redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute(ERROR, "Failed to delete location");
-        }
+        locationService.deleteLocation(id, user);
+        redirectAttributes.addFlashAttribute(SUCCESS, "Location deleted successfully");
         return REDIRECT_HOME;
     }
 }
