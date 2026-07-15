@@ -5,6 +5,7 @@ import com.example.weatherviewer.repository.SessionRepository;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,5 +35,13 @@ public class SessionRepositoryImpl implements SessionRepository {
     public Session save(Session session) {
         sessionFactory.getCurrentSession().persist(session);
         return session;
+    }
+
+    @Override
+    public int deleteExpiredSessions(Instant now) {
+        return sessionFactory.getCurrentSession()
+                .createMutationQuery("DELETE FROM Session WHERE expiresAt < :now")
+                .setParameter("now", now)
+                .executeUpdate();
     }
 }
