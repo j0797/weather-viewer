@@ -34,6 +34,7 @@
         <lombok.version>1.18.38</lombok.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <expressly.version>5.0.0</expressly.version>
+        <caffeine.version>3.2.4</caffeine.version>
         <validation.api.version>3.0.2</validation.api.version>
         <hibernate.validator.version>8.0.1.Final</hibernate.validator.version>
     </properties>
@@ -185,6 +186,12 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.version}</version>
         </dependency>
 
         <dependency>

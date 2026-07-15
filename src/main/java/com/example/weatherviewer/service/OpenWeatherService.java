@@ -1,8 +1,10 @@
 package com.example.weatherviewer.service;
 
-import com.example.weatherviewer.dto.api.WeatherDto;
 import com.example.weatherviewer.dto.api.LocationDto;
+import com.example.weatherviewer.dto.api.WeatherDto;
 import com.example.weatherviewer.exception.openweather.OpenWeatherApiException;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,11 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
 import java.util.List;
 
 @Service
 public class OpenWeatherService {
-
     private static final Logger log = LoggerFactory.getLogger(OpenWeatherService.class);
     private static final String GEOCODING_URL = "geo/1.0/direct?q={query}&limit={limit}&appid={apiKey}";
     private static final String WEATHER_URL = "data/2.5/weather?lat={lat}&lon={lon}&appid={apiKey}&units=metric";
@@ -22,6 +24,10 @@ public class OpenWeatherService {
     private final RestTemplate restTemplate;
     private final String apiUrl;
     private final String apiKey;
+    private final Cache<String, WeatherDto> weatherCache = Caffeine.newBuilder()
+            .expireAfterWrite(Duration.ofMinutes(10))
+            .maximumSize(100)
+            .build();
 
     public OpenWeatherService(RestTemplate restTemplate,
                               @Value("${weather.api.url}") String apiUrl,
@@ -50,6 +56,11 @@ public class OpenWeatherService {
     }
 
     public WeatherDto getWeather(double lat, double lon) {
+        String key = lat + "," + lon;
+        return weatherCache.get(key, k -> fetchWeather(lat, lon));
+    }
+
+    private WeatherDto fetchWeather(double lat, double lon) {
         log.info("Fetching weather for lat={}, lon={}", lat, lon);
         try {
             String url = apiUrl + WEATHER_URL;
