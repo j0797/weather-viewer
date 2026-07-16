@@ -13,6 +13,10 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+    private static final String PAGE_INDEX = "index";
+    private static final String MODEL_ATTRIBUTE_WEATHER_CARDS = "weatherCards";
+    private static final String MODEL_ATTRIBUTE_CURRENT_USER = "currentUser";
+
     private final LocationService locationService;
 
     public HomeController(LocationService locationService) {
@@ -20,13 +24,13 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(@RequestAttribute(value = "currentUser") User user,
+    public String home(@RequestAttribute(value = MODEL_ATTRIBUTE_CURRENT_USER) User user,
                        Model model) {
         if (user != null) {
             List<WeatherCardDto> weatherCards = locationService.getWeatherForUser(user);
-            model.addAttribute("weatherCards", weatherCards);
-            model.addAttribute("currentUser", user);
+            model.addAttribute(MODEL_ATTRIBUTE_WEATHER_CARDS, weatherCards);
+            model.addAttribute(MODEL_ATTRIBUTE_CURRENT_USER, user);
         }
-        return "index";
+        return PAGE_INDEX;
     }
 }

@@ -63,7 +63,8 @@ public class AuthInterceptor implements HandlerInterceptor {
             response.sendRedirect("/auth/sign-in");
             return false;
         }
-        log.debug("Request allowed for user: {}", ((User) request.getAttribute(CURRENT_USER)).getLogin());
+        User currentUser = (User) request.getAttribute(CURRENT_USER);
+        log.debug("Request allowed for user: {}", currentUser.getLogin());
         return true;
     }
 
