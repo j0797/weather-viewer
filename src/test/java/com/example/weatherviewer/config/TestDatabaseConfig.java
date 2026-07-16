@@ -14,8 +14,6 @@ import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
 
-import static org.mockito.Mockito.mock;
-
 @Configuration
 @Profile("test")
 @PropertySource("classpath:application-test.properties")
@@ -59,7 +57,7 @@ public class TestDatabaseConfig {
 
     @Bean
     public RestTemplate restTemplate() {
-        return mock(RestTemplate.class);
+        return new RestTemplate();
     }
 
     private Properties hibernateProperties() {
