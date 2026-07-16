@@ -5,6 +5,7 @@ import com.example.weatherviewer.entity.User;
 import com.example.weatherviewer.exception.auth.UserAlreadyExistsException;
 import com.example.weatherviewer.exception.auth.UserNotFoundException;
 import com.example.weatherviewer.repository.UserRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -34,7 +35,11 @@ public class UserService {
 
         String hashedPassword = BCrypt.withDefaults().hashToString(BCRYPT_COST, rawPassword.toCharArray());
         User user = new User(login, hashedPassword);
-        return userRepository.save(user);
+        try {
+            return userRepository.save(user);
+        } catch (ConstraintViolationException e) {
+            throw new UserAlreadyExistsException("User with login " + login + " already exists");
+        }
     }
 
     @Transactional(readOnly = true)
