@@ -1,4 +1,4 @@
-package com.example.weatherviewer.config;
+package com.example.weatherviewer.config.web;
 
 import com.example.weatherviewer.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;

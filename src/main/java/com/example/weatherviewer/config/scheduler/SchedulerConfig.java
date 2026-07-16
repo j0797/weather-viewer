@@ -1,4 +1,4 @@
-package com.example.weatherviewer.config;
+package com.example.weatherviewer.config.scheduler;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

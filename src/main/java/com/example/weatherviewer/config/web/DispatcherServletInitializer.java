@@ -1,5 +1,8 @@
-package com.example.weatherviewer.config;
+package com.example.weatherviewer.config.web;
 
+import com.example.weatherviewer.config.AppConfig;
+import com.example.weatherviewer.config.scheduler.SchedulerConfig;
+import com.example.weatherviewer.config.db.DatabaseConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

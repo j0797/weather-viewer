@@ -1,4 +1,4 @@
-package com.example.weatherviewer.config;
+package com.example.weatherviewer.config.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

@@ -1,4 +1,4 @@
-package com.example.weatherviewer.config;
+package com.example.weatherviewer.config.db;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Bean;
