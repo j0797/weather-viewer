@@ -10,11 +10,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ModelAndView handleNoHandlerFound(NoHandlerFoundException e) {
+        log.warn("No handler found for: {}", e.getRequestURL());
+        ModelAndView mav = new ModelAndView("redirect:/");
+        mav.setStatus(HttpStatus.FOUND);
+        return mav;
+    }
 
     @ExceptionHandler(OpenWeatherApiException.class)
     public ModelAndView handleOpenWeatherApiException(OpenWeatherApiException e) {
